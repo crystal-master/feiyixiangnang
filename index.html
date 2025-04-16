@@ -1,0 +1,2097 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>香囊</title>
+    <link rel="stylesheet" href="font/iconfont.css">
+    <style>
+        *{
+            margin:0;
+            padding: 0;
+            box-sizing: border-box;
+            list-style:none;
+            /* 移除列表前符号 */
+            /* 去除列表默认样式 */
+            text-decoration: none;
+            /* 去除文本样式取消超链接下划线 */
+
+        }
+        body{
+                                      
+            
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            overflow: auto;
+            /* 滚动条 */
+            /* background-color:rgb(17,213,209); */
+            position: relative;
+            /* 加了 position: relative 之后，你可以用 top、left、right、bottom 来微调它的位置 */
+            background-color: transparent;
+            /* display: flex; */
+            overflow-x: hidden;
+            overflow-y: scroll; /* 显示垂直滚动条 */
+            scroll-behavior: smooth; /* 平滑滚动 */
+            
+        }
+
+        section{
+            /* position:relative; */
+           display: none;
+            width:100%;
+            min-height: 100vh;
+            height: auto;
+            /* display: flex; */
+            /* 水平垂直方向对齐 */
+            justify-content: center;
+            /* 水平方向居中对齐 */
+            font:900 100px '';
+            /* 字体粗细 字体大小 字体族 */
+            color:#ffa21759;
+            /* background-color: #e4e9f5; */
+            /* background-color:rgb(17,213,209); */
+            padding-bottom: 50px;
+        }
+        section.active{
+            display:flex;
+            /* 让多个子元素横向排布
+
+设置子元素之间的间距
+
+居中对齐子元素（水平/垂直都可以）
+
+控制元素是否自动换行
+
+控制子元素自动伸缩以适配屏幕大小 */
+            flex-direction: column;
+            /* 子元素纵向排列 */
+        }
+        #home{
+            background-color: rgb(17,213,209,0.4);
+        }
+        #home.active {
+    background-color: rgb(17,213,209,0.4);
+    min-height: 100vh; /* 确保最小高度 */
+    height: auto; /* 允许内容增长 */
+    flex: 1; /* 填充可用空间 */
+}
+        .shell{
+            position:fixed;
+            /* 元素不随页面滚动 */
+            width: 84px;
+            height: 100%;
+            background-color: #000000;
+            z-index: 9999;
+            /* 固定导航栏一定在最左边 */
+            transition: width 0.5s;
+            /* 平滑改变元素宽度0.5s反应 */
+            padding-left: 10px;
+            overflow: hidden;
+            /* 隐藏超出容器内容 */
+        }
+        .shell:hover{
+            width: 300px;
+        }
+        .imageBox{
+            position: relative;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            /* 变成圆角 */
+            overflow:hidden;
+        }
+        .imageBox img{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* 元素完全覆盖容器 */
+        }
+        .shell ul{
+            position:relative;
+            height: 100vh;
+        }
+        .shell ul li{
+            position: relative;
+            padding: 5px;
+        }
+        .active{
+            background-color: #e4e9f5;
+            border-top-left-radius: 50px;
+            /* 左上角圆角 */
+            border-bottom-left-radius: 50px;
+            /* 左下角圆角 */
+        }
+        .active::before{
+            content:"";
+            position: absolute;
+            top:-30px;
+            right:0;
+            width: 30px;
+            height: 30px;
+            border-bottom-right-radius: 25px;
+            box-shadow: 5px 5px 0 5px #e4e9f5;
+            background:transparent;
+        }
+        .active::after{
+            content:"";
+            position:absolute;
+            bottom:-30px;
+            right:0;
+            width:30px;
+            height: 30px;
+            border-top-right-radius: 25px;
+            box-shadow: 5px -5px 0 5px #e4e9f5;
+            background: transparent;
+        } 
+        #logo{
+            margin:40px 0 100px 0;
+
+        }
+        .shell ul li a{
+            position: relative;
+            display: flex;
+            white-space: nowrap;
+            /* 禁止文本换行 */
+        }
+        .icon{
+            position: relative;
+            display:flex;
+            justify-content: center;
+            align-items: center;
+            min-width: 60px;
+            padding-left: 10px;
+            height: 70px;
+            color:#333;
+            transition:0.5s;
+            color:rgb(255,255,255);
+
+        }
+        .icon i{
+            font-size: 30px;
+            z-index: 999;
+            /* 堆叠层次最上 */
+        }
+        .text{
+            position: relative;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            font-size: 20px;
+            color:#ffad32c1;
+            padding-left: 15px;
+            text-transform: uppercase;
+            /* 转换为大写字母 */
+            letter-spacing: 2px;
+            transition: 0.5s;
+        }
+        .shell ul li:hover a .icon,
+        .shell ul li:hover a .text{
+            color:#ffa117
+        }
+        .active a .icon::before{
+            content: "";
+            position:absolute;
+            inset:5px;
+            width:60px;
+            background: #000000;
+            border-radius: 50%;
+            transition: 0.5s;
+            border:7px solid #ffa117;
+            box-sizing: border-box;
+        }
+
+        .rain-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+       .drop {
+            position: absolute;
+            width: 1px;
+            height: 10px;
+            background: rgba(255, 255, 255,0.6 );
+            animation: rain-drop linear infinite;
+            filter: blur(1px);
+        } 
+
+        @keyframes rain-drop {
+            from {
+                top: -10px;
+            }
+            to {
+                top: 100vh;
+            }
+        }
+
+        /* home界面 */
+        .container {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+            perspective: 1000px;
+            padding-left: 300px;  
+        }
+
+        .cube {
+            width: 400px; /* 增大正方体的宽度 */
+            height: 400px; /* 增大正方体的高度 */
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.2s;
+            /* 0.2s平滑过渡 */
+        }
+
+        .face {
+            position: absolute;
+            width: 400px; /* 增大面板的宽度 */
+            height: 400px; /* 增大面板的高度 */
+            opacity: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0,0.2);
+        }
+        .face img{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .face.front {
+            background-color: #a6c8cc;
+            transform: translateZ(200px); /* 调整Z轴位置 */
+        }
+
+        .face.back {
+            background-color: #c7b8d9;
+            transform: rotateY(180deg) translateZ(200px);
+        }
+
+        .face.right {
+            background-color: #f2bba7;
+            transform: rotateY(90deg) translateZ(200px);
+        }
+
+        .face.left {
+            background-color: #f4d6b9;
+            transform: rotateY(-90deg) translateZ(200px);
+        }
+
+        .face.top {
+            background-color: #a3d2ca;
+            transform: rotateX(90deg) translateZ(200px);
+        }
+
+        .face.bottom {
+            background-color: #e8c2ca;
+            transform: rotateX(-90deg) translateZ(200px);
+        }
+        .text-content2{
+            margin-left: 150px;
+            /* font-size: 18px;
+            color:#333; */
+            max-width: 700px; /* 限制文本内容的最大宽度 */
+            font-family: 'Arial', sans-serif; /* 使用现代字体 */
+            color: #333;
+            line-height: 1.6; 
+            border-left: #333;
+            padding-left: 20px;
+        }
+        .text-content2::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 4px; /* 竖线宽度 */
+    height: 100%;
+    background-color: #5053fc; 
+    border-radius: 2px; /* 可选：添加圆角 */
+    z-index: 1;
+}
+
+.text-content2 h2 {
+    font-size: 56px;
+    margin-bottom: 20px;
+    color: #5053fc;
+}
+
+.text-content2 p {
+    font-size: 28px;
+    margin-bottom: 15px;
+    text-align: justify;
+}
+         /* history */
+        .main {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            position: relative;
+            background-color: rgb(104,184,142,0.8);
+            overflow: hidden;
+            /* justify-content: center; /* 居中对齐 */
+            /* align-items: center; 垂直居中 */ 
+        }
+
+        .main .iconfont {
+            width: 80px;
+            height: 80px;
+            position: absolute;
+            left: 27%;
+            z-index: 999;
+            font: 900 80px '';
+            color: #fff;
+        }
+
+        #up-btn {
+            top: 5%;
+            /* left: 50%; 居中 */
+            /* transform: translateX(-50%); */
+        }
+
+        #down-btn {
+            bottom: 5%;
+            /* left: 50%; 居中 */
+            /* transform: translateX(-50%); */
+        }
+
+        #content {
+            width: 40%;
+            height: 100%;
+            position: absolute;
+            left: 15%;
+            overflow: hidden;
+        }
+
+        .card {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: white;
+            transition: transform .8s ease-in-out;
+        }
+
+        .card-time {
+            font-size: 40px;
+            font-weight: 700;
+        }
+
+        .card-title {
+            font-size: 25px;
+            font-weight: 500;
+            padding-top:20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid white;
+            margin-bottom: 10px;
+        }
+
+        .card-passage {
+            font-size: 24px;
+            font-weight: 300;
+        }
+
+        #clock {
+            height: 130%;
+            /* 纵横比为1:1 */
+            aspect-ratio: 1 / 1;
+            position: absolute;
+            right: -28%;
+            top: -15%;
+            /* top: 50%; */
+            /* transform: translateY(-50%); */
+            border-radius: 50%;
+            background-color: white;
+            border: #ffa117 30px solid;
+        }
+
+        @media(max-width:1000px) {
+            #clock {
+                right: -90%;
+            }
+        }
+
+        #clock-table {
+            width: 96%;
+            height: 96%;
+            border-radius: 50%;
+            position: absolute;
+            top: 2%;
+            left: 2%;
+            transition: transform .8s ease-in-out;
+        }
+
+        .invisible-table {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            transform-origin: 50% 50%;
+            position: absolute;
+        }
+
+        .clock-thick {
+            width: 6%;
+            height: 6px;
+            background-color: rgb(104,184,142,0.8);
+            position: absolute;
+            top: calc(50% - 3px);
+            left: 0px;
+        }
+
+        .clock-thick span {
+            font-size: 50px;
+            position: absolute;
+            left: 140%;
+            top: calc(50% - 30px);
+            color: rgb(104,184,142,0.8);
+        }
+
+        .clock-scale {
+            width: 4%;
+            height: 2px;
+            background-color: rgb(104,184,142,0.8);
+            position: absolute;
+            top: calc(50% - .5px);
+            left: 0px;
+        } 
+        .clock-thick span {
+            font-size: 40px; /* 根据需要调整字体大小 */
+            position: absolute;
+            left: 100%; /* 将文字放在刻度的末端 */
+            top: 50%; /* 垂直居中 */
+            transform: translateY(-50%); /* 垂直居中对齐 */
+            color: rgb(104,184,142,0.8);
+            white-space: nowrap; /* 防止文字换行 */
+        }
+
+        /* production */
+        #Production {
+    position: relative;
+    display: none; /* 初始状态隐藏 */
+    width: 100%;
+    height: 100vh;
+    /* overflow-y: auto; */
+}
+#Production.active {
+    display: block; /* 激活时显示 */
+}
+        .background-container {
+            min-height: 100vh;
+            width: 100%;
+            position: relative;
+            padding: 40px; /* 给半透明方块留出边距 */
+            background-color: transparent;
+}
+
+ #Production .background-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('./image/方形香囊.jpg'); /* 替换为你的图片路径 */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 0; /* 修改层级 */
+    
+}
+
+.overlay-container {
+    position: relative; /* 添加相对定位 */
+    background-color: rgba(255, 255, 255, 0.5); /* 半透明白色 */
+    border-radius: 20px; /* 圆角 */
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 1200px; /* 比卡片容器稍宽 */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+    z-index: 1; /* 确保在背景图片之上 */
+
+}
+        .card2-container {
+            position: relative; /* 添加相对定位 */
+            z-index: 2; /* 确保在半透明层之上 */
+            gap: 20px;
+            display: flex;
+            justify-content: center;
+            /* align-items: center; */
+            /* min-height: 100vh; */
+            /* background-color: #000; */
+            flex-wrap: wrap; /* 允许卡片换行 */
+            max-width: 1000px; /* 限制容器最大宽度 */
+            margin: 0 auto; /* 容器居中 */
+            padding: 20px; /* 容器内边距 */
+            /* overflow-y: scroll; /* 显示垂直滚动条 */
+
+        }
+
+       .card2 {
+            width: 200px;
+            height: 300px;
+            position: relative;
+            perspective: 1000px;
+            transition: transform 0.5s;
+            margin: 10px; /* 添加外边距 */
+        }
+
+       .card2:hover {
+            transform: scale(1.05);
+        }
+
+       .card2-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.5s;
+        }
+
+       .card2:hover .card2-inner {
+            transform: rotateY(180deg);
+        }
+
+       .card2-face {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            animation: glow 1.5s ease-in-out infinite alternate;
+            overflow: hidden; /* 确保图片不会溢出卡片 */
+
+        }
+
+       .card2-face.front {
+            background-color: #333;
+        }
+
+        .card2-face.front img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* 确保图片填满卡片且保持比例 */
+        }
+       .card2-face.back {
+            background-color:  rgb(104,184,142,0.8);
+            transform: rotateY(180deg);
+        }
+
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            }
+            to {
+                box-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.6);
+            }
+        }
+        .background-container h2{
+            color: #000000;
+            font-size: 26px;
+        }
+        /* 添加链接样式 */
+.card2-face.back a {
+    color: white; /* 保持文字颜色为白色 */
+    text-decoration: none; /* 移除下划线 */
+    font-size: 24px; /* 保持原有字体大小 */
+    transition: all 0.3s ease; /* 添加过渡效果 */
+}
+
+.card2-face.back a:hover {
+    color: #ffa117; /* 鼠标悬停时改变颜色 */
+    transform: scale(1.1); /* 鼠标悬停时略微放大 */
+    display: inline-block; /* 使transform生效 */
+}
+/* 香料 */
+.collapsible-container {
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.collapsible {
+    margin-bottom: 10px;
+}
+
+.collapsible-header {
+    background-color:rgb(104,184,142,0.8);
+    color: white;
+    padding: 15px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+.collapsible-header:hover {
+    background-color: #000;
+}
+
+.collapsible-header h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.toggle-icon {
+    font-size: 24px;
+    font-weight: bold;
+    transition: transform 0.3s ease;
+}
+
+.collapsible.active .toggle-icon {
+    transform: rotate(45deg); /* 将加号旋转45度变成减号 */
+}
+
+.collapsible-content {
+    background-color: #fff;
+    padding: 0 20px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s ease;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    border-radius: 0 0 5px 5px;
+}
+
+.collapsible.active .collapsible-content {
+    max-height: 500px; /* 设置一个足够大的高度 */
+    padding: 20px;
+}
+
+/* 内容样式 */
+.collapsible-content p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333;
+}
+/* legend */
+.stories-container {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+.story-card {
+    display: flex;
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 40px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* 第二个故事的特殊布局 */
+.story-card:nth-child(2) {
+    flex-direction: row; /* 确保第二个故事的内容在左，图片在右 */
+}
+
+.story-image {
+    flex: 0 0 400px;
+    overflow: hidden;
+    border-radius: 10px;
+    margin: 0 30px;
+}
+
+.story-image img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.story-image:hover img {
+    transform: scale(1.05);
+}
+
+.story-content {
+    flex: 1;
+    padding: 10px;
+}
+
+.story-content h2 {
+    color: #333;
+    font-size: 27px;
+    margin-bottom: 15px;
+}
+
+.story-content p {
+    color: #666;
+    font-size: 20px;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .story-card,
+    .story-card:nth-child(2) {
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .story-image {
+        margin: 0 0 20px 0;
+    }
+}
+/* 添加模态框样式 */
+.modal {
+    display: none; /* 默认隐藏 */
+    position: fixed;
+    z-index: 10000; /* 确保在最上层 */
+    padding-top: 50px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9); /* 半透明黑色背景 */
+    overflow: auto;
+}
+
+.modal-content {
+    margin: auto;
+    display: block;
+    max-width: 90%;
+    max-height: 90vh;
+    object-fit: contain;
+    animation: zoom 0.6s;
+}
+
+.close {
+    position: absolute;
+    right: 35px;
+    top: 15px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 10001;
+}
+
+.close:hover {
+    color: #bbb;
+    text-decoration: none;
+}
+
+@keyframes zoom {
+    from {transform:scale(0)}
+    to {transform:scale(1)}
+}
+
+/* 让图片有点击效果 */
+.story-image img {
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+
+.story-image img:hover {
+    opacity: 0.8;
+}
+
+/* 响应式调整 */
+@media only screen and (max-width: 700px){
+    .modal-content {
+        max-width: 100%;
+    }
+}
+.videos-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.video-section {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 60px;
+    padding: 20px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+
+.video-section.reverse {
+    flex-direction: row;
+}
+
+.video-wrapper {
+    flex: 0 0 50%;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.video-wrapper video {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 10px;
+}
+
+.text-content {
+    flex: 1;
+    padding: 20px;
+}
+
+.text-content h3 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.text-content p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #666;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .video-section,
+    .video-section.reverse {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .video-wrapper {
+        flex: 0 0 100%;
+    }
+
+    .text-content {
+        padding: 10px;
+    }
+}
+
+/* 可选：添加悬停效果 */
+.video-section:hover {
+    transform: translateY(-5px);
+    transition: transform 0.3s ease;
+}
+
+/* 可选：视频控件样式自定义 */
+video::-webkit-media-controls {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* 可选：如果使用iframe嵌入在线视频 */
+.video-wrapper iframe {
+    width: 100%;
+    height: 315px;
+    border: none;
+    border-radius: 10px;
+}
+
+/* 百叶窗 */
+.box1{
+        width:1004px;
+        height:400px;
+      
+        margin:50px auto;
+        border:2px solid #FFF;
+        overflow:hidden;
+        background-color:rgba(255,255,255,0.3);
+        box-shadow:5px 5px 7px rgba(255,255,255,0.5);
+        font-size: 0;
+    }
+        
+        .box1 li{
+            /* display: inline-block; */
+        float:left;
+        position:relative;
+        width:200px;
+        height:410px;
+        box-shadow:0 0 25px #000000;
+        transition:all 0.5s;
+        vertical-align: top;
+        }
+        .box1 li img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+       
+        
+        .box1:hover li{
+        width:125px;
+        }
+        
+        .box1 li:hover{
+        width:500px;
+        }
+        
+        .active h1 {
+    font-family: "华文仿宋", FangSong, STFangsong, serif;
+    text-align: center;
+    margin-top: 10px; /* 可以调整这个值来控制距离顶部的距离 */
+    font-size: 80px; /* 可以调整字体大小 */
+    color: #000; /* 文字颜色 */
+    width: 100%;
+    padding: 20px 0;
+}
+
+/* 如果需要确保标题始终在顶部 */
+section#title {
+    align-items: flex-start; /* 确保内容从顶部开始 */
+}
+
+section#title.active {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 水平居中 */
+}
+
+.fullwidth-container {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.image-section {
+    position: relative;
+    width: 100%;
+    /* height: 100vh; 设置为全屏高度 */
+    overflow: hidden;
+}
+
+.image-section img {
+    width: 100%;
+    /* height: 100%; */
+    object-fit: cover; /* 确保图片填满容器且保持比例 */
+    display: block;
+}
+
+.text-overlay {
+    position: absolute;
+    top: 50%; /* 文字垂直居中 */
+    left: 50%; /* 文字水平居中 */
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    z-index: 2;
+    width: 90%; /* 文字区域宽度 */
+    padding: 20px;
+}
+
+/* 可选：添加半透明遮罩使文字更清晰 */
+.image-section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    /* height: 100%; */
+    background: rgba(0, 0, 0, 0.3); /* 黑色半透明遮罩 */
+    z-index: 1;
+}
+.text-section2{
+    width: 100%;
+    padding: 100px 0; /* 上下间距 */
+    background-color: #e4e9f5; /* 背景色 */
+    text-align: center;
+}
+
+.text-section2 h2 {
+    font-size: 0.4em;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.text-section2 p {
+    font-size: 0.3em;
+    line-height: 1.8;
+    color: #666;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+.text-overlay h2 {
+    font-size: 0.4em;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* 文字阴影 */
+}
+
+.text-overlay p {
+    font-size: 0.3em;
+    line-height: 1.6;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* 响应式设计 */
+/* @media (max-width: 1100px) {
+    .text-overlay h2 {
+        font-size: 0.4em;
+    }
+
+    .text-overlay p {
+        font-size: 0.3em;
+    }
+    .text-section2 h2 {
+        font-size: 0.4em;
+    }
+
+    .text-section2 p {
+        font-size: 0.3em;
+    } */
+
+    .text-section2 {
+        padding: 50px 0;
+    }
+}
+/* 主页面按钮样式 */
+.button-container {
+    position: absolute;
+    right: 100px;
+    top: 30px;
+    z-index: 1000;
+    display: flex;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 25px;
+    margin-left: 10px;
+    border-radius: 25px;
+    font-size: 30px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.login-btn {
+    background-color: rgb(104,184,142,0.8);
+    color: white;
+}
+
+.register-btn {
+    background-color: rgb(104,184,142,0.8);
+    color: white;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+.zuihou{
+            background-color: rgb(204, 212, 230);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .a{
+            position: relative;
+            width: 700px;
+            height: 400px;
+            border: #fff 10px solid;
+            background-color: rgb(120,140,200);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.445);
+            filter: drop-shadow(4px 4px 5px rgba(0, 0, 0, 0.164));
+        }
+        .b{
+            position: absolute;
+            width: 200px;
+            height: 300px;
+            left: 0;
+            margin: 75px 50px;
+            transition: 1s;
+        }
+        .b a{
+            text-decoration: none;
+            color: #fff;
+            font: 900 28px '';
+        }
+        .b h2{
+            /* 鼠标放开时的动画，第一个值是动画的过渡时间
+            第二个值是延迟一秒后执行动画 */
+            transition: .5s 1s;
+            opacity: 0;
+            color: rgb(30,210,200);
+        }
+        .b span{
+            transition: .5s 1s;
+            color: #fff;
+            font: 500 15px '';
+            position: absolute;
+            top: 70px;
+        }
+        .c{
+            position: absolute;
+            top: -130px;
+            right: -240px;
+        }
+        .d,.e{
+            position: absolute;
+            right: calc(var(--i)*100px);
+            width: calc(var(--w)*40px);
+            height: 500px;
+            overflow: hidden;
+            border-radius: 100px;
+            transform: rotateZ(220deg) translate(0,0);
+            background: rgb(162,182,109);
+            transition: .5s .5s;
+        }
+        .d:nth-child(2){
+            background: rgb(194,211,167);
+        }
+        .e{
+            left: -470px;
+            top: -140px;
+            width: 70px;
+            background-color: rgb(183,211,163);
+        }
+        .a:hover .c div{
+            /* 设置延迟动画 */
+            transition: .5s calc(var(--i)*.1s);
+            /* 移动的轨迹 */
+            transform: rotateZ(220deg) translate(-200px,400px);
+        }
+        .a:hover .b{
+            transition: 1s .5s;
+            left: 370px;
+        }
+        .a:hover .b span{
+            transition: 1s .5s;
+            top: 105px;
+        }
+        .a:hover .b h2{
+            transition: 1s .5s;
+            opacity: 1;
+        }
+        .f{
+            width: 250px;
+            height: 250px;
+            position: absolute;
+            background-image: url("./image/二维码.jpg");
+            background-size: cover;
+            margin: 70px;
+            opacity: 0;
+            transition: .5s;
+        }
+        .a:hover .f{
+            transition: 1s 1.3s;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="shell">
+        <ul class="nav">
+            <li class="active" id="logo">
+                <a href="#" data-target="title">
+                <!-- <a href="#" id="no-click"> -->
+                    <div class="icon">
+                        <div class="imageBox">
+                            <img src="image/香囊图标.jpg" alt="香囊">
+                        </div>
+                    </div>
+                    <div class="text">香囊小屋</div>
+                </a>
+            </li>
+            <li>
+                <a href="#" data-target="home">
+                    <div class="icon">
+                        <i class="iconfont icon-yingyong"></i>
+                    </div>
+                    <div class="text">展示</div>
+                </a>
+            </li>
+            <li>
+                <a href="#" data-target="History">
+                    <div class="icon">
+                        <i class="iconfont icon-ciku"></i>
+                    </div>
+                    <div class="text">历史</div>
+                </a>
+            </li>
+            <li>
+                <a href="#" data-target="Production">
+                    <div class="icon">
+                        <i class="iconfont icon-iconzhizuomoban518"></i>
+                    </div>
+                    <div class="text">制作</div>
+                </a>
+            </li>
+            <li>
+                <a href="#" data-target="Legend">
+                    <div class="icon">
+                        <i class="iconfont icon-lushichuanshuo"></i>
+                    </div>
+                    <div class="text">传说</div>
+                </a>
+            </li>
+            
+            
+            <li>
+                <a href="#"data-target="me">
+                    <div class="icon">
+                        <div class="imageBox">
+                            <img src="image/香囊图标.jpg" alt="">
+                        </div>
+                    </div>
+                    <div class="text">ME</div>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <section id="title" class="active">
+        <h1>非遗•香囊</h1>
+        <ul class="box1">
+            <li>
+            <img src="./image/1香囊.jpg" alt="">        
+            </li>
+            <li>
+            <img src="./image/2香囊.jpg" alt="">
+            </li>
+            <li>
+            <img src="./image/3香囊.jpg" alt="">
+            
+            </li>
+            <li>
+            <img src="./image/4香囊.jpg" alt="">
+            
+            </li>
+            <li>
+            <img src="./image/5香囊.jpg" alt="">
+            
+            </li>
+            </ul>
+            
+            <div class="button-container">
+                <a href="login.html" target="_blank" class="btn login-btn">登录</a>
+                <a href="register.html" target="_blank" class="btn register-btn">注册</a>
+            </div>
+            <br>
+            <br>
+            <div class="fullwidth-container">
+                <!-- 第一张图片和文字 -->
+                <div class="image-section">
+                    <img src="./image/圆形.jpg" alt="图片1">
+                    <div class="text-overlay">
+                        <h2>香囊之端午节</h2>
+                        <p>“榴花角黍斗时新，今日谁家酒不樽。堪笑江湖阻风客，却随蒿艾上朱门。”</p>
+                    </div>
+                </div>
+                <div class="text-section2">
+                    <h2>农历五月被古时民间称为“恶日”或“毒日”。</h2>
+                    <p>由于夏至到来，气温陡升，虫虐恣肆，各种病菌衍生繁殖，妇女儿童以及体弱者容易染疾。人们为捱过这段难熬的日子，便想出各种办法祛病驱邪，于是有了佩香囊以避毒疫。</p>
+                </div>
+                <!-- 第二张图片和文字 -->
+                <div class="image-section">
+                    <img src="./image/石榴形香囊.jpg" alt="图片2">
+                    <div class="text-overlay">
+                        <h2>香囊最初是由佩囊发展而来的。</h2>
+                        
+                    </div>
+                </div>
+            <!-- 第二段文字区域 -->
+            <div class="text-section2">
+                <h2>香囊属于佩囊的一种</h2>
+                <p>佩囊是古人用来盛放零星细物的小布兜。古人衣服上没有口袋，一些随身携带的必需品，如印章、凭证、钥匙、手巾、钱币、珠宝等，多贮放于这种囊内，外出时则将其佩于腰间，故谓之“佩囊”，又称“荷囊”。香囊即属于佩囊的一种，因囊中盛放香料而得名，又称香包、香缨、香袋、香球、佩帏、荷包等等。</p>
+            </div>
+        
+                <!-- 第三张图片和文字 -->
+                <div class="image-section">
+                    <img src="./image/三棱锥形香囊.jpg" alt="图片3">
+                    <div class="text-overlay">
+                        <h2>《礼记•内则》</h2>
+                        <p>“男女未冠笄者,咸盥、漱、栉、縰、拂髦、总角、衿缨, 皆佩容臭。”</p>
+                    </div>
+                </div>
+                <div class="text-section2">
+                    <h2>“容臭，香物也。以缨佩之，为迫尊者，给小使也。”</h2>
+                    <p>从文献记载来看，古人佩戴香囊的历史可以追溯到商周时期。东汉郑玄注曰：“容臭，香物也。以缨佩之，为迫尊者，给小使也。”大意是说未成年的男女拜见父母长辈时要佩戴香囊以示敬意。这里提到的“容臭”，大概就是最早形态的香囊了。</p>
+                </div>
+            </div>
+    </section>
+    <section id="home" >
+        
+        <div class="container">
+            <div class="cube">
+                <div class="face front">
+                    <img src="image/圆形香囊.jpg" alt="正面">
+                </div>
+                <div class="face back">
+                    <img src="image/香囊.jpg" alt="背面">
+                </div>
+                <div class="face right">
+                    <img src="image/香囊5.jpg" alt="右面">
+                </div>
+                <div class="face left">
+                    <img src="image/圆形香囊2.jpg" alt="左面">
+                </div>
+                <div class="face top">
+                    <img src="image/香囊2.jpg" alt="顶面">
+                </div>
+                <div class="face bottom">
+                    <img src="image/香囊3.jpg" alt="底面">
+                </div>
+            </div>
+            <div class="text-content2">
+                <h2>香囊</h2>
+                
+                <p>是古代汉族劳动妇女创造的一种民间刺绣工艺品。</p>
+                <p>是以男耕女织为标志的古代汉族农耕文化的产物。</p> 
+                <p>是越千年而余绪未泯的汉族传统文化的遗存和再生。</p>
+            </div>
+        </div>
+    </section>
+    <section id="History">
+        <!-- history -->
+    <div class="main">
+        <i class="iconfont icon-arrow-up-bold" id="up-btn" onclick="slideToPrev()"></i>
+        <i class="iconfont icon-arrow-down-bold" id="down-btn" onclick="slideToNext()"></i>
+        <div id="content">
+            <div class="card">
+                <div class="card-time">
+                    春秋战国时期
+                </div>
+                <div class="card-title">
+                    
+                    《离骚》“扈江篱与辟芷兮，纫秋兰以为佩”
+                    <br>
+                    《离骚》“椒专佞以慢慆兮，又欲充夫佩帏”
+                </div>
+                
+                <div class="card-passage">
+                    <br>
+                    古人佩戴香囊风俗日盛,江篱、辟芷、秋兰均为香草。
+                    <br>
+                    把香料佩带在身上，目的是为了让人与生活环境更加洁净、清香。多数情况下，人们是把阴干的香草盛在精美的丝袋里，佩在身边，既可散发芬芳，又可作为饰物。
+                    <br>
+                    
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-time">
+                    汉魏时期
+                </div>
+                <div class="card-title">
+                    《定情诗》“何以致叩叩？香囊系肘后。”
+                </div>
+                <div class="card-passage">
+                    <br>
+                    “香囊”的名称正式出现在文献中。
+                    <br>
+                    诗中指明当时的香囊是系在肘臂之下、藏于袖中佩戴的，通过衣袖再把微微香气从袖筒散发出来。这种袖底生香的魅力是既含蓄又充满诱惑力。
+                    <br>
+                    
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-time">
+                    唐代时期
+                </div>
+                <div class="card-title">
+                    白居易：“拂胸轻粉絮，暖手小香囊”
+                </div>
+                <div class="card-passage">
+                    <br>
+                    唐代是中国焚香习俗的鼎盛时期。从文献记载看，唐朝的政治生活和世俗生活、贵族生活和民间生活都离不开焚香，熏香已经成为人们生活的一部分。这与当时佛教的兴盛不无关联，此时佛教从印度传入中国，熏香习俗也随之传入。唐代的熏香器非常奢华，出现了金银制品，在设计和审美上也颇具世俗的情趣。唐代的香囊便于携带且做工精致，当时上流社会的男女都会将它佩戴在身上，悬挂车辇之上，岁终祭祀百神之日更需佩戴。
+                    <br>
+                    
+                    
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-time">
+                    宋代时期
+                </div>
+                <div class="card-title">
+                    欧阳修《归田录》中记载，官员有每晨必先熏衣两炉,取足浓香气味,然后上朝者。
+                    <br>
+                    《陆游集•放翁遗稿卷上•焚香赋》亦有“参佛龛之夜供,异朝衣之晨熏”之语,可见其俗至南宋时犹存。
+                </div>
+                <div class="card-passage">
+                    <br>
+                    宋代香料大量进口,除部分入药和礼佛外,主要供宫廷、官宦之家日常生活之消耗。当时官员讲求上朝衣著带有香气。
+                    <br>
+                    皇帝亦常以香料赐给臣僚,如庆历二年仁宗曾以银匣乳香一小盒赐给任官青州之欧阳修, 欧阳修《年谱》特记其事,视为殊荣。宋代的香囊形制更加多样化,除了传统的丝质香囊持续流行,可以焚香的香囊继续使用,在传统香囊的基础上更制作出造型精美、纹饰考究的金银香囊。
+                    <br>
+                    
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-time">
+                    明清时期
+                </div>
+                <div class="card-title">
+                    明代李时珍《本草纲目》中有香囊治病的记载。
+                <br>小说《红楼梦》中多处写到香囊
+                </div>
+                <div class="card-passage">
+                    <br>
+                    明清时期，香囊发展到了又一鼎盛时期，无论男女,皆可随身携带及赏玩。此时香囊种类繁多，材质上不仅有布制成的，还有玉镂雕的，金蕾丝、银蕾丝、点翠镶嵌和丝绣的，等等；形状上也有圆形、方形、椭圆形、倭角形、葫芦形、石榴形、桃形等等。                 
+                </div>
+            </div>
+        </div>
+        <div id="clock">
+            <div id="clock-center"></div>
+            <div id="clock-pointer"></div>
+            <div id="clock-table"></div>
+        </div>
+    </section>
+    <section id="Production">
+        <div class="background-container">
+            <div class="background-image"></div>
+            <div class="overlay-container">
+        <h2>香囊中的香料</h2>
+        <div class="card2-container">
+            <div class="card2">
+                <div class="card2-inner">
+                    <div class="card2-face front">
+                        <img src="./image/佩兰.jpg" alt="佩兰">                 
+                    </div>
+                    <div class="card2-face back">
+                        <a href="https://baike.baidu.com/item/%E4%BD%A9%E5%85%B0/551792" target="_blank">佩兰</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card2">
+                <div class="card2-inner">
+                    <div class="card2-face front">
+                        <img src="./image/川芎.jpg" alt="川芎">
+                    </div>
+                    <div class="card2-face back">
+                        <a href="https://baike.baidu.com/item/%E5%B7%9D%E8%8A%8E/727831" target="_blank">川芎</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card2">
+                <div class="card2-inner">
+                    <div class="card2-face front">
+                        <img src="./image/白芷.jpg" alt="白芷">
+                    </div>
+                    <div class="card2-face back">
+                        <a href="https://baike.baidu.com/item/%E7%99%BD%E8%8A%B7/471399"target="_blank">白芷</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card2">
+                <div class="card2-inner">
+                    <div class="card2-face front">
+                        <img src="./image/益智仁.jpg" alt="益智仁">
+                    </div>
+                    <div class="card2-face back">
+                        <a href="https://baike.baidu.com/item/%E7%9B%8A%E6%99%BA%E4%BB%81/1651302"target="_blank">益智仁</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card2">
+                <div class="card2-inner">
+                    <div class="card2-face front">
+                        <img src="./image/艾叶.jpg" alt="艾叶">
+                    </div>
+                    <div class="card2-face back">
+                        <a href="https://baike.baidu.com/item/%E8%89%BE%E5%8F%B6/697309"target="_blank">艾叶</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card2">
+                <div class="card2-inner">
+                    <div class="card2-face front">
+                        <img src="./image/苍术.png" alt="苍术">
+                    </div>
+                    <div class="card2-face back">
+                        <a href="https://baike.baidu.com/item/%E8%8B%8D%E6%9C%AF/13982773"target="_blank">苍术</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card2">
+                <div class="card2-inner">
+                    <div class="card2-face front">
+                        <img src="./image/苏合香.jpg" alt="苏合香">
+                    </div>
+                    <div class="card2-face back">
+                        <a href="https://baike.baidu.com/item/%E8%8B%8F%E5%90%88%E9%A6%99/1697422"target="_blank">苏合香</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card2">
+                <div class="card2-inner">
+                    <div class="card2-face front">
+                        <img src="./image/菖蒲.jpg" alt="菖蒲">
+                    </div>
+                    <div class="card2-face back">
+                        <a href="https://baike.baidu.com/item/%E8%8F%96%E8%92%B2/1241"target="_blank">菖蒲</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card2">
+                <div class="card2-inner">
+                    <div class="card2-face front">
+                        <img src="./image/薄荷.jpg" alt="薄荷">
+                    </div>
+                    <div class="card2-face back">
+                        <a href="https://baike.baidu.com/item/%E8%96%84%E8%8D%B7/369280"target="_blank">薄荷</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card2">
+                <div class="card2-inner">
+                    <div class="card2-face front">
+                        <img src="./image/藿香.jpg" alt="藿香">
+                    </div>
+                    <div class="card2-face back">
+                        <a href="https://baike.baidu.com/item/%E8%97%BF%E9%A6%99/602728?fromModule=lemma_search-box"target="_blank">藿香</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card2">
+                <div class="card2-inner">
+                    <div class="card2-face front">
+                        <img src="./image/辛夷.jpg" alt="辛夷">
+                    </div>
+                    <div class="card2-face back">
+                        <a href="https://baike.baidu.com/item/%E8%BE%9B%E5%A4%B7/16561038"target="_blank">辛夷</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card2">
+                <div class="card2-inner">
+                    <div class="card2-face front">
+                        <img src="./image/陈皮.jpg" alt="陈皮">
+                    </div>
+                    <div class="card2-face back">
+                        <a href="https://baike.baidu.com/item/%E9%99%88%E7%9A%AE/746229?fromModule=lemma_search-bo"target="_blank">陈皮</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card2">
+                <div class="card2-inner">
+                    <div class="card2-face front">
+                        <img src="./image/零陵香.jpg" alt="零陵香">
+                    </div>
+                    <div class="card2-face back">
+                        <a href="https://baike.sogou.com/v10880849.htm"target="_blank">零陵香</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card2">
+                <div class="card2-inner">
+                    <div class="card2-face front">
+                        <img src="./image/香橼.jpg" alt="香橼">
+                    </div>
+                    <div class="card2-face back">
+                        <a href="https://baike.baidu.com/item/%E9%A6%99%E6%A9%BC/579931"target="_blank">香橼</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card2">
+                <div class="card2-inner">
+                    <div class="card2-face front">
+                        <img src="./image/香附.jpg" alt="香附">
+                    </div>
+                    <div class="card2-face back">
+                        <a href="https://baike.baidu.com/item/%E9%A6%99%E9%99%84?fromModule=lemma_search-box"target="_blank">香附</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card2">
+                <div class="card2-inner">
+                    <div class="card2-face front">
+                        <img src="./image/高良姜.jpg" alt="高良姜">
+                    </div>
+                    <div class="card2-face back">
+                        <a href="https://baike.baidu.com/item/%E9%AB%98%E8%89%AF%E5%A7%9C/19908606"target="_blank">高良姜</a>
+                    </div>
+                </div>
+            </div>
+        </div>   
+        <hr> 
+        <br>
+        <h2>香料配比表</h2>
+        <br>
+        <div class="collapsible-container">
+        
+            <div class="collapsible">
+                <div class="collapsible-header">
+                    <h3>安神助眠香囊</h3>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="collapsible-content">
+                    <p>安息香2g、沉香2g、薰衣草4g、夜交藤4g、合欢花4g、朱砂4g、茯神4g</p>
+                    <br>
+                    <p>----出自《本草纲目》</p>
+                </div>
+            </div>
+        
+            
+            <div class="collapsible">
+                <div class="collapsible-header">
+                    <h3>理气解郁香囊</h3>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="collapsible-content">
+                    <p>白芷2g、藿香2g、紫苏叶2g、木香2g、青桔皮2g、小茴香2g、桂花2g、玫瑰2g		</p>
+                    <br>
+                    <p>----出自《古今中藥外治真传》</p>
+                </div>
+            </div>
+        
+            <div class="collapsible">
+                <div class="collapsible-header">
+                    <h3>驱蚊防虫香囊</h3>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="collapsible-content">
+                    <p>薄荷2g、丁香2g、薰衣草4g、七里香4g、艾叶4g</p>
+                    <br>
+                    <p>----出自《陈氏香谱》</p>
+                </div>
+            </div>
+
+            <div class="collapsible">
+                <div class="collapsible-header">
+                    <h3>护肾除湿香囊</h3>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="collapsible-content">
+                    <p>狗脊4g、艾叶4g、川椒2g、怀牛膝4g、藿香2g、茯苓4g、白术4g		</p>
+                    <br>
+                    <p>----出自《古今中藥外治真传》》</p>
+                </div>
+            </div>
+
+            <div class="collapsible">
+                <div class="collapsible-header">
+                    <h3>鼻塞通络香囊</h3>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="collapsible-content">
+                    <p>辛夷2g、板蓝根4g、夏枯草4g、野菊花4g、桑叶4g、金银花4g、藿香2g、薄荷2g</p>
+                    <br>
+                    <p>----出自《古今中藥外治真传》</p>
+                </div>
+            </div>
+
+            <div class="collapsible">
+                <div class="collapsible-header">
+                    <h3>防冠心病香囊</h3>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="collapsible-content">
+                    <p>玄参4g、当归4g、菖蒲4g、川椒2g、桂枝2g、柏子仁4g、冰片2g、三七2g			</p>
+                    <br>
+                    <p>----出自《古今中藥外治真传》</p>
+                </div>
+            </div>
+
+            <div class="collapsible">
+                <div class="collapsible-header">
+                    <h3>提神解困香囊</h3>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="collapsible-content">
+                    <p>迷迭香2g、丁香2g、苍术2g、高良姜2g、薄荷2g、龙脑香2g等</p>
+                    <br>
+                    <p>----出自《古今中藥外治临床大全》</p>
+                </div>
+            </div>
+
+            <div class="collapsible">
+                <div class="collapsible-header">
+                    <h3>儿童防感冒香囊</h3>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="collapsible-content">
+                    <p>丁香2g、冰片2g、高良姜2g、桂枝2g、佩兰2g、艾叶2g		</p>
+                    <br>
+                    <p>----出自《内病外治精要》	</p>
+                </div>
+            </div>
+
+            <div class="collapsible">
+                <div class="collapsible-header">
+                    <h3>健脾和胃香囊</h3>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="collapsible-content">
+                    <p>炒白术2g、黄芪2g、焦山楂2g、六神曲2g、鸡内金2g、陈皮2g、木香1g、砂仁1g</p>
+                    <br>
+                    <p>----出自《古今中藥外治真传》</p>
+                </div>
+            </div>
+
+            <div class="collapsible">
+                <div class="collapsible-header">
+                    <h3>汽车专用香囊</h3>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="collapsible-content">
+                    <p>茉莉花4g、桂花4g、玫瑰花4g、薰衣草4g、金银花4g、迷迭香2g、薄荷2g</p>
+                    <br>
+                    <p>----出自《辨香术》</p>
+                </div>
+            </div>
+
+            
+        </div>
+        <hr>
+        <br>
+        <h2>香囊制作过程视频</h2>
+        <div class="videos-container">
+            <!-- 第一个视频部分：视频左，文字右 -->
+            <div class="video-section">
+                <div class="video-wrapper">
+                    <video controls>
+                        <source src="./image/李子柒香囊制作.mp4" type="video/mp4">
+                        您的浏览器不支持 video 标签。
+                    </video>
+                </div>
+                <div class="text-content">
+                    <h3>李子柒</h3>
+                    <p>用李子柒的方式打开中药香囊制作</p>
+                </div>
+            </div>
+        
+            <!-- 第二个视频部分：文字左，视频右 -->
+            <div class="video-section reverse">
+                <div class="text-content">
+                    <h3>匠人派</h3>
+                    <p>重拾东方古韵</p>
+                </div>
+                <div class="video-wrapper">
+                    <video controls>
+                        <source src="./image/非遗.mp4" type="video/mp4">
+                        您的浏览器不支持 video 标签。
+                    </video>
+                </div>
+            </div>
+
+            <div class="video-section">
+                <div class="video-wrapper">
+                    <video controls>
+                        <source src="./image/竹香囊.mp4" type="video/mp4">
+                        您的浏览器不支持 video 标签。
+                    </video>
+                </div>
+                <div class="text-content">
+                    <h3>竹编教程</h3>
+                    <p>一世长安竹香囊制作</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="Legend">
+        <div class="stories-container">
+            <!-- 故事1 - 图片左，内容右 -->
+            <div class="story-card">
+                <div class="story-image">
+                    <img src="./image/唐玄宗和杨贵妃.png" alt="唐玄宗与杨贵妃">
+                </div>
+                <div class="story-content">
+                    <h2>《太真香囊子》</h2>
+                    <p>
+                        安史乱起，唐玄宗带着杨贵妃一行人仓皇西狩，马嵬坡六军不发，唐玄宗牺牲了杨贵妃的生命，让她独自去承担酿成国家战乱的责任。杨贵妃被绞杀后，尸体被匆忙就地埋葬。待到收复西京以后，唐玄宗派人悄悄将她的遗体移葬，办事宦官发现贵妃的遗体只剩下莹莹白骨一架，唯有临死时佩戴在胸前的香囊还完好似昔，他把香囊取下复命。垂垂老矣的太上皇玄宗见到香囊睹物思人，当年骊山歌舞的欢乐宛在，伊人的浓爱只留下眼前这只香囊！他把香囊装入衣袖，不禁老泪纵横。八十年过去后，诗人张祜感叹此物此事，写下了《太真香囊子》一诗：
+蹙金妃子小花囊，销耗胸前结旧香。
+谁为君王重解得，一生遗恨系心肠。
+
+                    </p>
+                </div>
+            </div>
+        
+            <!-- 故事2 - 内容左，图片右 -->
+            <div class="story-card story-reverse">
+                <div class="story-content">
+                    <h2>《晋书贾午传》</h2>
+                    <p>《晋书贾午传》中记载了贾充的小女儿贾午与她父亲贾充的幕僚韩寿相恋的故事，幽会时贾午以西域的香料相赠，不料上朝时韩寿身上的香味被贾充察觉，他猜到了事情的原由以后，没有责怪女儿，而是让女儿嫁给了韩寿，并因此成就了一段千古佳话。这西域之香应该由贾午装在自己亲手做的香囊里相赠，才不算辱没了贵重礼物和女儿家的一番情意。</p>
+                </div>
+                <div class="story-image">
+                    <img src="./image/晋书.jpg" alt="晋书">
+                </div>
+            </div>
+        
+            <!-- 故事3 - 图片左，内容右 -->
+            <div class="story-card">
+                <div class="story-image">
+                    <img src="./image/林黛玉和贾宝玉.png" alt="林黛玉和贾宝玉">
+                </div>
+                <div class="story-content">
+                    <h2>《红楼梦》</h2>
+                    <p>《红楼梦》里林黛玉也曾给贾宝玉做过香囊，一针一线都凝结着她的情思。有一回写黛玉误会宝玉把她送他的香囊送了人，赌气把正在做的另一个剪了，香囊却是宝玉贴身戴着，怎么会送人？当芳华不再、红雨落尽的时候，见香囊犹见伊人，却只怕宝玉已是不忍再看了。“成泥做土香如故,却为谁?零落成泥碾作尘，只有香如故。”如今的人们通常在每年端午节前后给孩子们佩戴香囊，以求驱虫、避邪、保平安。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="me">
+        <div class="zuihou">
+            <div class="a">
+                <div class="b">
+                    <!-- <a href="#">香囊小屋</a>
+                    <h2>团队介绍</h2> -->
+                    <span>创作者：郭雨欣 李雨欣<br>
+                          邮箱：123456789@qq.com<br><br>非遗香囊作为传统文化的载体，不仅是一种艺术形式，也象征着对传统工艺和文化的尊重与传承。</span>
+                    <br>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="c">
+                   
+                    <div class="d" style="--i:1;--w:1.5"></div>
+                    <div class="d" style="--i:2;--w:1.6"></div>
+                    <div class="d" style="--i:3;--w:1.4"></div>
+                    <div class="d" style="--i:4;--w:1.7"></div>
+                    <div class="e" style="--i:1"></div>
+               
+                
+                </div>
+                <div class="f"></div>
+            </div>
+            </div>
+    </section>
+    <div class="rain-container"></div>
+
+    
+
+        
+    </div>
+    <!-- 在 body 末尾添加模态框 -->
+<div class="modal" id="imageModal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="modalImage">
+</div>
+</body>
+<!-- <script>
+    let nav=document.querySelectorAll(".nav li");
+    function activeLink(){
+        nav.forEach((item)=>item.classList.remove("active"));
+        this.classList.add("active");
+    }
+    nav.forEach((item)=>item.addEventListener("click",activeLink));
+</script> -->
+<script>
+    
+    let nav = document.querySelectorAll(".nav li");
+    let sections = document.querySelectorAll("section");
+
+    function activeLink() {
+        nav.forEach((item) => item.classList.remove("active"));
+        this.classList.add("active");
+
+        const targetId = this.querySelector('a').getAttribute('data-target');
+        sections.forEach((section) => {
+            section.classList.remove("active");
+            if (section.id === targetId) {
+                section.classList.add("active");
+            }
+        });
+    }
+
+    nav.forEach((item) => item.addEventListener("click", activeLink));
+
+    const rainContainer = document.querySelector('.rain-container');
+        const numDrops = 200;
+
+        for (let i = 0; i < numDrops; i++) {
+            const drop = document.createElement('div');
+            drop.classList.add('drop');
+            drop.style.left = `${Math.random() * 100}vw`;
+            drop.style.animationDuration = `${Math.random() * 2 + 1}s`;
+            drop.style.animationDelay = `${Math.random() * 2}s`;
+            rainContainer.appendChild(drop);
+        }
+
+        // home界面
+        const cube = document.querySelector('.cube');
+        let isDragging = false;
+        let previousX = 0;
+        let previousY = 0;
+        let rotationX = 0;
+        let rotationY = 0;
+
+        document.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            previousX = e.clientX;
+            previousY = e.clientY;
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                const deltaX = e.clientX - previousX;
+                const deltaY = e.clientY - previousY;
+
+                rotationY += deltaX * 0.5;
+                rotationX += deltaY * 0.5;
+
+                cube.style.transform = `rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
+
+                previousX = e.clientX;
+                previousY = e.clientY;
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        document.addEventListener('mouseleave', () => {
+            isDragging = false;
+        });
+
+        //history
+        // 定义变量
+        let offset = 0;
+        let maxOffset = 0;
+        let minOffset = -4;
+        // 获取所有卡片元素并存储在数组中
+        const slides = Array.from(document.querySelectorAll(".card"));
+        // 获取时钟表盘元素
+        const clock = document.querySelector("#clock-table");
+        
+        const periods = [
+            "西周时期",
+            "春秋战国时期",
+            "汉魏时期",
+            "唐代时期",
+            "宋代时期",
+            "明清时期"
+        ];
+
+// 设定起始年份为2021
+let startYear = 2021;
+let periodIndex = 0; // 用于遍历 periods 数组
+
+for (let i = -60, year = startYear - 1; i < 300; i += 6) {
+    // 调用添加时钟刻度函数
+    addClockScale(i);
+    if (i % 60 === 0 && periodIndex < periods.length) {
+        // 如果为整点时，调用添加粗刻度函数
+        addThickClockScale(i, periods[periodIndex]);
+        periodIndex++;
+    }
+}
+        // 定义历史时期
+
+        // 添加时钟刻度
+        function addClockScale(degree) {
+            // 创建一个隐藏的表格元素
+            const invisibleClockTable = document.createElement("div");
+            // 添加类名
+            invisibleClockTable.className = "invisible-table";
+            // 设置旋转角度
+            invisibleClockTable.style.transform = `rotate(${degree}deg)`;
+            // 创建时钟刻度元素
+            const clockScale = document.createElement("div");
+            // 添加类名
+            clockScale.className = "clock-scale";
+            // 将时钟刻度元素添加到表格中
+            invisibleClockTable.appendChild(clockScale);
+            // 将表格添加到时钟表盘中
+            clock.appendChild(invisibleClockTable);
+        }
+        // 添加粗刻度
+        function addThickClockScale(degree, time) {
+            // 创建一个隐藏的表格元素
+            const invisibleClockTable = document.createElement("div");
+            invisibleClockTable.className = "invisible-table";
+            invisibleClockTable.style.transform = `rotate(${degree}deg)`;
+            const thickClockScale = document.createElement("div");
+            thickClockScale.className = "clock-thick";
+            const scaleContent = document.createElement("span");
+            scaleContent.textContent = `${time}`;
+            thickClockScale.appendChild(scaleContent);
+            invisibleClockTable.appendChild(thickClockScale);
+            clock.appendChild(invisibleClockTable);
+        }
+        // 向前切换卡片
+        function slideToPrev() {
+            // 更新偏移量，取最大值
+            offset = Math.min(maxOffset, offset + 1);
+            slides.forEach(slide => {
+                // 根据偏移量设置卡片垂直偏移效果
+                slide.style.transform = `translateY(${offset * 100}%)`;
+            });
+            // 调用旋转时钟表盘函数
+            clockRotate(offset * 60);
+        }
+        // 向后切换卡片
+        function slideToNext() {
+            offset = Math.max(minOffset, offset - 1);
+            slides.forEach(slide => {
+                slide.style.transform = `translateY(${offset * 100}%)`;
+            });
+            clockRotate(offset * 60);
+        }
+        // 旋转时钟表盘
+        function clockRotate(degree) {
+            // 根据角度旋转时钟表盘
+            clock.style.transform = `rotate(${degree}deg)`;
+        }
+
+
+// 添加 JavaScript 代码
+document.addEventListener('DOMContentLoaded', function() {
+    // 获取模态框元素
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImage');
+    const closeBtn = document.getElementsByClassName('close')[0];
+    
+    // 为所有故事图片添加点击事件
+    document.querySelectorAll('.story-image img').forEach(img => {
+        img.onclick = function() {
+            modal.style.display = 'block';
+            modalImg.src = this.src;
+        }
+    });
+    
+    // 点击关闭按钮关闭模态框
+    closeBtn.onclick = function() {
+        modal.style.display = 'none';
+    }
+    
+    // 点击模态框外部关闭模态框
+    modal.onclick = function(event) {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    }
+    
+    // ESC键关闭模态框
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            modal.style.display = 'none';
+        }
+    });
+});
+// 香料
+document.addEventListener('DOMContentLoaded', function() {
+    const collapsibles = document.querySelectorAll('.collapsible');
+
+    collapsibles.forEach(item => {
+        const header = item.querySelector('.collapsible-header');
+        
+        header.addEventListener('click', () => {
+            // 关闭其他打开的面板（如果需要）
+             collapsibles.forEach(other => {
+                if (other !== item && other.classList.contains('active')) {
+                     other.classList.remove('active');
+                 }
+             });
+
+            // 切换当前面板
+            item.classList.toggle('active');
+        });
+    });
+});
+</script>
+</html>
